@@ -5,7 +5,8 @@ $(document).ready(function() {
       event.preventDefault(); // prevent form submission
       var searchTerm = $('#search-input').val();
       localStorage.setItem('searchTerm', searchTerm);
-      alert('Search term saved to local storage: ' + localStorage.getItem('searchTerm'));
+      $('#history ul').append('<li>' + searchTerm + '</li>');
+      $('#searchTerm').val(''); // clear the searchTerm input field
     });
   
   });
