@@ -18,6 +18,8 @@ $(document).ready(function() {
           var forecast = data.list;
           for (var i = 0; i < forecast.length; i += 8) {
             console.log(forecast[i].dt_txt + ': ' + forecast[i].main.temp + '°F');
+            var date = moment.unix(forecast[i].dt).format('MM/DD/YYYY');
+            console.log(date + ': ' + forecast[i].main.temp + '°F');
           }
         }
       });
