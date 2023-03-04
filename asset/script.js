@@ -27,6 +27,7 @@ $("#search-form").submit(function (event) {
       $("#forecast").empty();
 
       var forecast = data.list;
+      console.log(forecast);
 
       var today_date = moment.unix(forecast[0].dt).format("MM/DD/YYYY");
 
@@ -40,14 +41,17 @@ $("#search-form").submit(function (event) {
 
       for (var i = 1; i < forecast.length; i += 8) {
         var date = moment.unix(forecast[i].dt).format("MM/DD/YYYY");
-        records = date + " " + forecast[i].main.temp + "°C";
+        records = date;
         var icons = $(
           `<img src='http://openweathermap.org/img/wn/${forecast[i].weather[0].icon}.png' />`
         );
         var forecastEntry = $("<div>")
           .addClass("forecast-entry")
           .append("<div>" + records + "</div>")
-          .append(icons);
+          .append(icons)
+          .append("<div>" + "Temp: " + forecast[i].main.temp + "°C" + "</div>")
+          .append("<div>" + "Wind: " + forecast[i].wind.speed + "KPH" + "</div>")
+          .append("<div>" + "Humidity: " + forecast[i].main.humidity + "%" + "</div>");
         $("#forecast").append(forecastEntry);
       }
       // Append the new search term to the search history list
@@ -84,14 +88,17 @@ $("#search-form").submit(function (event) {
 
             for (var i = 1; i < forecast.length; i += 8) {
               var date = moment.unix(forecast[i].dt).format("MM/DD/YYYY");
-              records = date + " " + forecast[i].main.temp + "°C";
+              records = date;
               var icons = $(
                 `<img src='http://openweathermap.org/img/wn/${forecast[i].weather[0].icon}.png' />`
               );
               var forecastEntry = $("<div>")
                 .addClass("forecast-entry")
                 .append("<div>" + records + "</div>")
-                .append(icons);
+                .append(icons)
+                .append("<div>" + "Temp: " + forecast[i].main.temp + "°C" + "</div>")
+                .append("<div>" + "Wind: " + forecast[i].wind.speed + "KPH" + "</div>")
+                .append("<div>" + "Humidity: " + forecast[i].main.humidity + "%" + "</div>");
               $("#forecast").append(forecastEntry);
             }
           },
