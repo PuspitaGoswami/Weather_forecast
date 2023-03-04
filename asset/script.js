@@ -10,6 +10,7 @@ $("#search-form").submit(function (event) {
   serach_list = JSON.parse(localStorage.getItem("searchTerm"));
 
   $("#searchTerm").val(""); // clear the searchTerm input field
+  $("#search-input").val(""); // clear the search input field
 
   var today_record;
   var records;
@@ -43,15 +44,59 @@ $("#search-form").submit(function (event) {
         var icons = $(
           `<img src='http://openweathermap.org/img/wn/${forecast[i].weather[0].icon}.png' />`
         );
-        var forecastEntry = $("<div>").addClass("forecast-entry").append("<div>" + records + "</div>").append(icons);
+        var forecastEntry = $("<div>")
+          .addClass("forecast-entry")
+          .append("<div>" + records + "</div>")
+          .append(icons);
         $("#forecast").append(forecastEntry);
-        
       }
       // Append the new search term to the search history list
+     
       const history = document.createElement("li");
       history.classList.add("list-group-item");
       history.dataset.name = searchTerm;
       history.textContent = searchTerm;
+      history.addEventListener("click", function () {
+        $.ajax({
+          url:
+            "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=" +
+            history.dataset.name +
+            "&appid=" +
+            apiKey,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            
+            $("#today-weather").empty();
+            $("#forecast").empty();
+
+            var forecast = data.list;
+
+            var today_date = moment.unix(forecast[0].dt).format("MM/DD/YYYY");
+
+            today_record = today_date + " " + forecast[0].main.temp + "°C";
+            records = today_date + " " + forecast[0].main.temp + "°C";
+            var icon = $(
+              `<img src='http://openweathermap.org/img/wn/${forecast[0].weather[0].icon}.png' />`
+            );
+
+            $("#today-weather").append("<h2>" + records + "</h2>", icon);
+
+            for (var i = 1; i < forecast.length; i += 8) {
+              var date = moment.unix(forecast[i].dt).format("MM/DD/YYYY");
+              records = date + " " + forecast[i].main.temp + "°C";
+              var icons = $(
+                `<img src='http://openweathermap.org/img/wn/${forecast[i].weather[0].icon}.png' />`
+              );
+              var forecastEntry = $("<div>")
+                .addClass("forecast-entry")
+                .append("<div>" + records + "</div>")
+                .append(icons);
+              $("#forecast").append(forecastEntry);
+            }
+          },
+        });
+      });
       list_item.append(history);
     },
   });
