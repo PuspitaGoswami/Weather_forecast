@@ -1,6 +1,59 @@
 var apiKey = "5952fbf8cae4c17ce493168aa8989ee8";
 var serach_list = JSON.parse(localStorage.getItem("searchTerm")) || [];
 
+function weather_forecast(search){
+  $.ajax({
+    url:
+      "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=" +
+      search +
+      "&appid=" +
+      apiKey,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      
+      $("#today-weather").empty();
+      $("#forecast").empty();
+
+      var forecast = data.list;
+
+      var today_date = moment.unix(forecast[0].dt).format("MM/DD/YYYY");
+
+      today_record = today_date + " " + forecast[0].main.temp + "°C";
+      records = today_date + " " + forecast[0].main.temp + "°C";
+      var icon = $(
+        `<img src='http://openweathermap.org/img/wn/${forecast[0].weather[0].icon}.png' />`
+      );
+
+      var todayEntry = $("<div>")
+      .addClass("todayEntry")
+      .append("<div>" + search + "</div>")
+      .append("<div>" + today_date + "</div>")
+      .append(icon)
+      .append("<div>" + "Temp: " + forecast[0].main.temp + "°C" + "</div>")
+      .append("<div>" + "Wind: " + forecast[0].wind.speed + "KPH" + "</div>")
+      .append("<div>" + "Humidity: " + forecast[0].main.humidity + "%" + "</div>");
+    $("#today-weather").append(todayEntry);
+
+      for (var i = 1; i < forecast.length; i += 8) {
+        var date = moment.unix(forecast[i].dt).format("MM/DD/YYYY");
+        records = date;
+        var icons = $(
+          `<img src='http://openweathermap.org/img/wn/${forecast[i].weather[0].icon}.png' />`
+        );
+        var forecastEntry = $("<div>")
+          .addClass("forecast-entry")
+          .append("<div>" + records + "</div>")
+          .append(icons)
+          .append("<div>" + "Temp: " + forecast[i].main.temp + "°C" + "</div>")
+          .append("<div>" + "Wind: " + forecast[i].wind.speed + "KPH" + "</div>")
+          .append("<div>" + "Humidity: " + forecast[i].main.humidity + "%" + "</div>");
+        $("#forecast").append(forecastEntry);
+      }
+    },
+  });
+}
+
 $("#search-form").submit(function (event) {
   event.preventDefault(); // prevent form submission
   var searchTerm = $("#search-input").val();
@@ -37,7 +90,17 @@ $("#search-form").submit(function (event) {
         `<img src='http://openweathermap.org/img/wn/${forecast[0].weather[0].icon}.png' />`
       );
 
-      $("#today-weather").append("<h2>" + records + "</h2>", icon);
+  
+      var todayEntry = $("<div>")
+      .addClass("todayEntry")
+      .append("<div>" + searchTerm + "</div>")
+      .append("<div>" + today_date + "</div>")
+      .append(icon)
+      .append("<div>" + "Temp: " + forecast[0].main.temp + "°C" + "</div>")
+      .append("<div>" + "Wind: " + forecast[0].wind.speed + "KPH" + "</div>")
+      .append("<div>" + "Humidity: " + forecast[0].main.humidity + "%" + "</div>");
+    $("#today-weather").append(todayEntry);
+      
 
       for (var i = 1; i < forecast.length; i += 8) {
         var date = moment.unix(forecast[i].dt).format("MM/DD/YYYY");
@@ -61,48 +124,7 @@ $("#search-form").submit(function (event) {
       history.dataset.name = searchTerm;
       history.textContent = searchTerm;
       history.addEventListener("click", function () {
-        $.ajax({
-          url:
-            "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=" +
-            history.dataset.name +
-            "&appid=" +
-            apiKey,
-          type: "GET",
-          dataType: "json",
-          success: function (data) {
-            
-            $("#today-weather").empty();
-            $("#forecast").empty();
-
-            var forecast = data.list;
-
-            var today_date = moment.unix(forecast[0].dt).format("MM/DD/YYYY");
-
-            today_record = today_date + " " + forecast[0].main.temp + "°C";
-            records = today_date + " " + forecast[0].main.temp + "°C";
-            var icon = $(
-              `<img src='http://openweathermap.org/img/wn/${forecast[0].weather[0].icon}.png' />`
-            );
-
-            $("#today-weather").append("<h2>" + records + "</h2>", icon);
-
-            for (var i = 1; i < forecast.length; i += 8) {
-              var date = moment.unix(forecast[i].dt).format("MM/DD/YYYY");
-              records = date;
-              var icons = $(
-                `<img src='http://openweathermap.org/img/wn/${forecast[i].weather[0].icon}.png' />`
-              );
-              var forecastEntry = $("<div>")
-                .addClass("forecast-entry")
-                .append("<div>" + records + "</div>")
-                .append(icons)
-                .append("<div>" + "Temp: " + forecast[i].main.temp + "°C" + "</div>")
-                .append("<div>" + "Wind: " + forecast[i].wind.speed + "KPH" + "</div>")
-                .append("<div>" + "Humidity: " + forecast[i].main.humidity + "%" + "</div>");
-              $("#forecast").append(forecastEntry);
-            }
-          },
-        });
+          weather_forecast(history.dataset.name);
       });
       list_item.append(history);
     },
@@ -115,6 +137,9 @@ for (var i = 0; i < serach_list.length; i++) {
   history.classList.add("list-group-item");
   history.dataset.name = serach_list[i];
   history.textContent = serach_list[i];
+  history.addEventListener("click", function () {
+    weather_forecast(history.dataset.name);
+});
   list_item.append(history);
   // $("#history ul").append("<li>" +  serach_list[i]+ "</li>");
 }
