@@ -1,5 +1,51 @@
+.weather-header{
+    background-color: #4f5191; 
+}
 .forecast-entry {
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
+   
+    background-color: #7D80c7;
+    padding: 20px;
+    color:azure;
+  }
+  #forecast{
+    margin-top: 35px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  aside{
+    background-color: #BED1FC;
+  }
+  .forecast_container{
+    background-color: #F1F8FF;
+  }
+  .todayEntry img{
+    background-color: #BED1FC;
+  }
+  .input-group-append button{
+    width: 100% !important;
+    background:#FAFAFA !important;
+    margin-left: 85px !important;
+    margin-right: 35px !important;
+    border-radius: 5px !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .input-group-append button:hover{
+    background-color: #9395d6 !important; 
+  }
+  .input-group input{
+    width: 100%;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  #history{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -25px;
+  }
+
+  #list-item{
+    width: 100%;
   }

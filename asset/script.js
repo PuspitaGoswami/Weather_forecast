@@ -24,12 +24,10 @@ function weather_forecast(search){
       var icon = $(
         `<img src='http://openweathermap.org/img/wn/${forecast[0].weather[0].icon}.png' />`
       );
-
       var todayEntry = $("<div>")
       .addClass("todayEntry")
-      .append("<div>" + search + "</div>")
-      .append("<div>" + today_date + "</div>")
       .append(icon)
+      .append("<h2>" + search + " - " + today_date + "</h2>")
       .append("<div>" + "Temp: " + forecast[0].main.temp + "°C" + "</div>")
       .append("<div>" + "Wind: " + forecast[0].wind.speed + "KPH" + "</div>")
       .append("<div>" + "Humidity: " + forecast[0].main.humidity + "%" + "</div>");
@@ -93,9 +91,8 @@ $("#search-form").submit(function (event) {
   
       var todayEntry = $("<div>")
       .addClass("todayEntry")
-      .append("<div>" + searchTerm + "</div>")
-      .append("<div>" + today_date + "</div>")
       .append(icon)
+      .append("<h2>" + searchTerm + " - " + today_date + "</h2>")
       .append("<div>" + "Temp: " + forecast[0].main.temp + "°C" + "</div>")
       .append("<div>" + "Wind: " + forecast[0].wind.speed + "KPH" + "</div>")
       .append("<div>" + "Humidity: " + forecast[0].main.humidity + "%" + "</div>");
