@@ -1,6 +1,7 @@
 var apiKey = "5952fbf8cae4c17ce493168aa8989ee8";
 var serach_list = JSON.parse(localStorage.getItem("searchTerm")) || [];
 
+
 function weather_forecast(search){
   $.ajax({
     url:
@@ -63,7 +64,21 @@ $("#search-form").submit(function (event) {
   $("#searchTerm").val(""); // clear the searchTerm input field
   $("#search-input").val(""); // clear the search input field
 
-  var today_record;
+  // $.ajax({
+  //   url:
+  //     "http://api.openweathermap.org/geo/1.0/direct?q="+searchTerm + "&limit=1&appid=" +
+  //     apiKey,
+  //   type: "GET",
+  //   dataType: "json",
+  //   success: function (data) {
+   
+  //     lat =data[0].lat;
+  //     lon =  data[0].lon;
+  //     console.log(data[0].lat);
+  //   }
+  // });
+  // console.log(lat,lon);
+
   var records;
   $.ajax({
     url:
