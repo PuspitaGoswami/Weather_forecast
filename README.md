@@ -26,3 +26,11 @@ Click on a previous search history item to display the weather information for t
 N/A
 ## License
 MIT
+
+## Deployed Link
+https://puspitagoswami.github.io/Weather_forecast/
+
+
+!["Screen shot of my project"](asset/images/s1.JPG)
+
+!["Screen shot of my project"](asset/images/s2.JPG)
